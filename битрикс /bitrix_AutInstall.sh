@@ -20,6 +20,9 @@ function help(){
 	echo "  -v, --version		bitrix_Autinstall version "
 	echo "  -h, --help 		help bitrix_Authinsatll"
 	echo ""
+    echo "Запуск одной коммандой!"
+    echo "wget https://raw.githubusercontent.com/solo10010/scripts/main/%D0%B1%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%81%20/bitrix_AutInstall.sh && chmod +x bitrix_AutInstall.sh && sh bitrix_AutInstall.sh -s -p -H serveo1 -I -M qwe123123Q -m 8.0 "
+    echo ""
 	exit
 }
 
