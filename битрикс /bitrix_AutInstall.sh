@@ -8,6 +8,7 @@ function help(){
 	echo " Usage: ./bitrix_Autinstall.sh [options...] [-h, --help]> 
 		-p, -H, -F, -I, -M, -m 5.7, -m 8.0 "
 	echo ""
+    echo "  -s,     Режим не спрашивать "
 	echo "  -p,     Создать пул после установки окружения (Create pool after installation of bitrix-env).  "
 	echo "  -H,     Имя хоста (Hostname for for pool creation procedure). "
     echo "  -F,     Будет использоваться в качестве файрвола firewalld. . "
@@ -82,13 +83,17 @@ case $key in
     ;;
     -p) # Создать пул после установки окружения (Create pool after installation of bitrix-env).
     pull="$2"
-    echo $pull
     pull=true
+    shift # past argument
+    ;;
+    -s) # режим ничего не спрашивать
+    silent="$2"
+    silent=true
     shift # past argument
     ;;
 esac
 done
-
+    
     # бьем по рукам за неправильные аргументы
 
     if [[ $firewall == "" ]]; then
@@ -122,6 +127,7 @@ fi
 
 
     # Превью установки (правильно ли все ввел юзер)
+    echo "$silent"
     echo ""
     echo "      Создать пул после установки окружения      $pull"
     echo "      Имя сервера                                $hostname"
@@ -130,6 +136,9 @@ fi
     echo "      Пароль Mysql                               $mysql_passwd"
     echo ""
     # подтверждаем установку
+
+
+if [[ silent == "" ]]; then
     read -e -p "для подтверждения введите (y/yes) или (no/n) для отмены: " USERREAD
     if [[ $USERREAD == "yes" || $USERREAD == "YES" || $USERREAD == "y" || $USERREAD == "Y" ]]; then
         echo "$USERREAD"
@@ -138,7 +147,7 @@ fi
         echo "Установка отменена"
         exit
     fi
-
+fi
 
 # предварительные ласки
 
@@ -153,13 +162,42 @@ install_yum8x(){ # CentOS >= 8
    
     eval $SUDO yum groupinstall "Development Tools" -y $DEBUG_STD
     eval $SUDO yum install wget -y $DEBUG_STD
+
+        # создаем аргументы
+
+    if [ -n $pull ]; then
+        pull_env="-p"
+        else
+        pull_env=""
+    fi
+    if [[ $firewall == "iptables" ]]; then
+        firewall_env="-I"
+        else
+        firewall_env="-F"
+    fi
+
+    eval $SUDO wget --no-check-certificate https://repos.1c-bitrix.ru/yum/bitrix-env.sh && chmod +x bitrix-env.sh && ./bitrix-env.sh -s $pull_env -H $hostname $firewall_env -m $mysql_version -M "$mysql_passwd"
 }
 
 install_yum7x(){ # CentOS < 8
     
     eval $SUDO yum groupinstall "Development Tools" -y $DEBUG_STD
     eval $SUDO yum install wget -y $DEBUG_STD
-    #eval $SUDO wget --no-check-certificate https://repos.1c-bitrix.ru/yum/bitrix-env.sh && chmod +x bitrix-env.sh && ./bitrix-env.sh -s -p -H server1 -F -m 8.0 -M '111111'
+
+    # создаем аргументы
+
+    if [ -n $pull ]; then
+        pull_env="-p"
+        else
+        pull_env=""
+    fi
+    if [[ $firewall == "iptables" ]]; then
+        firewall_env="-I"
+        else
+        firewall_env="-F"
+    fi
+
+    eval $SUDO wget --no-check-certificate https://repos.1c-bitrix.ru/yum/bitrix-env.sh && chmod +x bitrix-env.sh && ./bitrix-env.sh -s $pull_env -H $hostname $firewall_env -m $mysql_version -M "$mysql_passwd"
 }
 
 
