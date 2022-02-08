@@ -162,24 +162,21 @@ install_apt(){ # дебиан ублюнту
 }
 
 install_yum8x(){ # CentOS >= 8
-   
-    eval $SUDO yum groupinstall "Development Tools" -y $DEBUG_STD
+    # установка репозиториев
+    # mysql
+    curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo
+    sudo sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
+    sudo sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
+
+    #обновим до centos8 stream
+
+    #wget https://raw.githubusercontent.com/m0zgen/centos8-to-stream/master/upgrade.sh && chmod +x upgrade.sh && sh ./upgrade.sh -u -a
+
+    eval $SUDO yum update -y $DEBUG_STD
     eval $SUDO yum install wget -y $DEBUG_STD
 
         # создаем аргументы
 
-    if [ -n $pull ]; then
-        pull_env="-p"
-        else
-        pull_env=""
-    fi
-    if [[ $firewall == "iptables" ]]; then
-        firewall_env="-I"
-        else
-        firewall_env="-F"
-    fi
-
-    eval $SUDO wget --no-check-certificate https://repos.1c-bitrix.ru/yum/bitrix-env.sh && chmod +x bitrix-env.sh && ./bitrix-env.sh -s $pull_env -H $hostname $firewall_env -m $mysql_version -M "$mysql_passwd"
 }
 
 install_yum7x(){ # CentOS < 8
