@@ -2,6 +2,10 @@
 
 DEBUG_STD="&> bitrix_install.log"
 
+# Установка bitrix_env.sh с испровлением всех проверок
+
+Bitrix_env=false
+
 # парсим аргументы
 function help(){
 	echo ""
@@ -161,26 +165,39 @@ install_apt(){ # дебиан ублюнту
 
 }
 
-install_yum8x(){ # CentOS >= 8
+disable_selinux(){
+
+    sestatus=$($sestatus_cmd | awk -F':' '/SELinux status:/{print $2}' | sed -e "s/\s\+//g")
+    seconfigs="/etc/selinux/config /etc/sysconfig/selinux"
+    if [[ $sestatus != "disabled" ]]; then
+        print "Selinux активирован" 
+        sed -i "s/SELINUX=\(enforcing\|permissive\)/SELINUX=disabled/"
+        echo "Selinux отключен!"
+    fi
+
+}
+
+install_package(){
+    yum install mc httpd nginx php php-fmt -y
+}
+
+install_yum8x(){ # CentOS >= 8 не получится установить
     # установка репозиториев
-    # mysql
-    #curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo
-    #sudo sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
-    #sudo sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
+    #disable_selinux
+    #epeal_configure
+    #remi_cofigure
+    #persona_configure
+    #pre_php
 
-    #обновим до centos8 stream
-
-    #wget https://raw.githubusercontent.com/m0zgen/centos8-to-stream/master/upgrade.sh && chmod +x upgrade.sh && sh ./upgrade.sh -u -a
-
-    eval $SUDO yum update -y $DEBUG_STD
-    eval $SUDO yum install wget -y $DEBUG_STD
-
-        # создаем аргументы
+    echo ""
+    echo "Bitrix не установится на CentOS >= 8 используй CentOS Streem"
+    echo ""
 
 }
 
 install_yum7x(){ # CentOS < 8
-    
+
+    eval $SUDO yum update -y $DEBUG_STD
     eval $SUDO yum groupinstall "Development Tools" -y $DEBUG_STD
     eval $SUDO yum install wget -y $DEBUG_STD
 
@@ -197,7 +214,12 @@ install_yum7x(){ # CentOS < 8
         firewall_env="-F"
     fi
 
-    eval $SUDO wget --no-check-certificate https://repos.1c-bitrix.ru/yum/bitrix-env.sh && chmod +x bitrix-env.sh && ./bitrix-env.sh -s $pull_env -H $hostname $firewall_env -m $mysql_version -M "$mysql_passwd"
+    if [[ $Bitrix_env == "true" ]]; then # если тру то ставим скриптом иначер кибер руками
+        eval $SUDO wget --no-check-certificate https://repos.1c-bitrix.ru/yum/bitrix-env.sh && chmod +x bitrix-env.sh && ./bitrix-env.sh -s $pull_env -H $hostname $firewall_env -m $mysql_version -M "$mysql_passwd"
+    else # ну ставим тогда руками
+        disable_selinux
+        install_package
+    fi
 }
 
 
