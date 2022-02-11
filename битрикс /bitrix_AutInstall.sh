@@ -167,10 +167,12 @@ install_apt(){ # дебиан ублюнту
 
 disable_selinux(){
 
+    sestatus_cmd=$(which sestatus $DEBUG_STD)
+
     sestatus=$($sestatus_cmd | awk -F':' '/SELinux status:/{print $2}' | sed -e "s/\s\+//g")
     seconfigs="/etc/selinux/config /etc/sysconfig/selinux"
     if [[ $sestatus != "disabled" ]]; then
-        print "Selinux активирован" 
+        print "Selinux активирован! отключаем" 
         sed -i "s/SELINUX=\(enforcing\|permissive\)/SELINUX=disabled/"
         echo "Selinux отключен!"
     fi
@@ -178,7 +180,10 @@ disable_selinux(){
 }
 
 install_package(){
-    yum install mc httpd nginx php php-fmt -y
+    
+    eval $SUDO yum install mc httpd pcp-pmda-nginx.x86_64 vim nano screen php php-xml php-intl php-ldap php-gd php-pecl-imagick php-pdo php-mbstring php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysql -y $DEBUG_STD
+    eval $SUDO yum install stunnel catdoc xpdf munin nagios sphinx -y $DEBUG_STD
+    eval $SUDO yum install mysql-server  -y $DEBUG_STD
 }
 
 install_yum8x(){ # CentOS >= 8 не получится установить
