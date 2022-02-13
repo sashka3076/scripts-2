@@ -179,6 +179,51 @@ disable_selinux(){
 
 }
 
+epeal_configure(){
+    # testing rpm package
+    EPEL=$(rpm -qa | grep -c 'epel-release')
+    if [[ $EPEL -gt 0 ]]; then
+        print "Epel не установлен"
+        return 0
+    fi
+
+    LINK="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+    GPGK="https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7"
+    
+
+    # configure repository
+    rpm --import "$GPGK" $DEBUG_STD
+        
+    rpm -Uvh "$LINK" $DEBUG_STD
+    
+
+    # install packages
+    yum clean all $DEBUG_STD
+    yum install -y yum-fastestmirror $DEBUG_STD
+   
+}
+
+remi_cofigure(){
+    EPEL=$(rpm -qa | grep -c 'remi-release')
+    if [[ $EPEL -gt 0 ]]; then
+        print "remi уже установен"
+        return 0
+    fi
+ 
+    # links
+    
+    GPGK="http://rpms.famillecollet.com/RPM-GPG-KEY-remi"
+    LINK="http://rpms.famillecollet.com/enterprise/remi-release-7.rpm"
+
+
+    # configure repository
+    rpm --import "$GPGK" $DEBUG_STD
+
+    rpm -Uvh "$LINK" $DEBUG_STD
+
+}
+
+
 install_package(){
     
     eval $SUDO yum install mc httpd pcp-pmda-nginx.x86_64 vim nano screen php php-xml php-intl php-ldap php-gd php-pecl-imagick php-pdo php-mbstring php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysql -y $DEBUG_STD
@@ -188,7 +233,7 @@ install_package(){
 
 install_yum8x(){ # CentOS >= 8 не получится установить
     # установка репозиториев
-    #disable_selinux
+    disable_selinux
     #epeal_configure
     #remi_cofigure
     #persona_configure
