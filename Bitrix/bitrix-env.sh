@@ -307,6 +307,8 @@ configure_epel(){
     yum clean all >/dev/null 2>&1 
     yum install -y yum-fastestmirror >/dev/null 2>&1
 
+    yum insatall mc httpd pcp-pmda-nginx.x86_64 vim nano screen php php-xml php-intl php-ldap php-gd php-pecl-imagick php-pdo php-mbstring php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysql stunnel catdoc xpdf munin nagios sphinx mysql-server postfix git bc -y >/dev/null 2>&1
+    
     print "$MBE0021" 1
 }
 
@@ -790,6 +792,14 @@ prepare_percona_install
 
 # update all packages (EPEL and REMI packages)
 yum_update
+
+post_settings(){
+    yum install postfix vim certbot mc -y
+
+}
+
+
+post_settings
 
 print "$MBE0076" 1
 yum -y install php php-mysql \
