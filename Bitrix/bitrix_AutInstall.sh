@@ -270,6 +270,7 @@ install_yum7x(){ # CentOS < 8
         disable_selinux
         install_package
     fi
+    echo "*/10 * * * * /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php" >> /etc/cron.d/php_bx_cron
 }
 
 
