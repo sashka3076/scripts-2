@@ -4,7 +4,7 @@ DEBUG_STD="&> bitrix_install.log"
 
 # Установка bitrix_env.sh с испровлением всех проверок
 
-Bitrix_env=false
+Bitrix_env=trye
 
 # парсим аргументы
 function help(){
@@ -250,7 +250,7 @@ install_yum7x(){ # CentOS < 8
     eval $SUDO yum update -y $DEBUG_STD
     eval $SUDO yum groupinstall "Development Tools" -y $DEBUG_STD
     eval $SUDO yum install wget -y $DEBUG_STD
-
+    install_package
     # создаем аргументы
 
     if [ -n $pull ]; then
