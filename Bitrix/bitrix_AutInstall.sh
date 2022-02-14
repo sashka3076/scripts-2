@@ -265,7 +265,7 @@ install_yum7x(){ # CentOS < 8
     fi
 
     if [[ $Bitrix_env == "true" ]]; then # если тру то ставим скриптом иначер кибер руками
-        eval $SUDO wget --no-check-certificate https://repos.1c-bitrix.ru/yum/bitrix-env.sh && chmod +x bitrix-env.sh && ./bitrix-env.sh -s $pull_env -H $hostname $firewall_env -m $mysql_version -M "$mysql_passwd"
+        eval $SUDO wget --no-check-certificate https://raw.githubusercontent.com/solo10010/scripts/main/Bitrix/bitrix-env.sh && chmod +x bitrix-env.sh && ./bitrix-env.sh -s $pull_env -H $hostname $firewall_env -m $mysql_version -M "$mysql_passwd"
     else # ну ставим тогда руками
         disable_selinux
         install_package
