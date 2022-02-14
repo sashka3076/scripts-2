@@ -4,7 +4,7 @@ DEBUG_STD="&> bitrix_install.log"
 
 # Установка bitrix_env.sh с испровлением всех проверок
 
-Bitrix_env=trye
+Bitrix_env=true
 
 # парсим аргументы
 function help(){
