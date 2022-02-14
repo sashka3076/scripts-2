@@ -6,5 +6,7 @@ wget https://repos.1c-bitrix.ru/yum/bitrix-env.sh --no-check-certificate && chmo
 
 Birix AutoInstall to Ubuntu, CentOS 8.*, Debian
 
-
+```
+wget https://raw.githubusercontent.com/solo10010/scripts/main/%D0%B1%D0%B8%D1%82%D1%80%D0%B8%D0%BA%D1%81%20/bitrix_AutInstall.sh && chmod +x bitrix_AutInstall.sh && sh bitrix_AutInstall.sh -s -p -H kadr.kz -I -M qwe123123Q -m 8.0
+```
 
