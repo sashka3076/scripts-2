@@ -226,7 +226,7 @@ remi_cofigure(){
 
 install_package(){
     
-    eval $SUDO yum install mc httpd pcp-pmda-nginx.x86_64 vim nano screen php php-xml php-intl php-ldap php-gd php-pecl-imagick php-pdo php-mbstring php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysql -y $DEBUG_STD
+    eval $SUDO yum install postfix mc httpd pcp-pmda-nginx.x86_64 vim nano screen php php-xml php-intl php-ldap php-gd php-pecl-imagick php-pdo php-mbstring php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysql -y $DEBUG_STD
     eval $SUDO yum install stunnel catdoc xpdf munin nagios sphinx -y $DEBUG_STD
     eval $SUDO yum install mysql-server  -y $DEBUG_STD
 }
