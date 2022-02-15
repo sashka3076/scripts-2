@@ -272,19 +272,19 @@ install_yum7x(){ # CentOS < 8
     fi
     echo "*/10 * * * * /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php" >> /etc/cron.d/php_bx_cron
     
-    #cat > /home/bitrix/.msmtprc << EOF
-    #account default
-    #logfile /home/bitrix/msmtp_default.log
-    #host 185.125.90.75
-    #port 25
-    #from name@site.ru
-    #keepbcc on
-    #auth on
-    #user name@site.ru
-    #password XXXXXXXXXXXXXX
-    #tls on
-    #tls_certcheck off
-    #EOF
+    # cat > /home/bitrix/.msmtprc << EOF
+    # account default
+    # logfile /home/bitrix/msmtp_default.log
+    # host 185.125.90.75
+    # port 25
+    # from name@site.ru
+    # keepbcc on
+    # auth on
+    # user name@site.ru
+    # password XXXXXXXXXXXXXX
+    # tls on
+    # tls_certcheck off
+    # EOF
 
     
 }
@@ -292,22 +292,21 @@ install_yum7x(){ # CentOS < 8
 
 # чекаем OS
 
+printf "${bblue} Начинаем обновление и установку програмного обеспечения $OS_VERSION ${reset}\n\n"
 
-    printf "${bblue} Начинаем обновление и установку програмного обеспечения $OS_VERSION ${reset}\n\n"
-
-    if [ -f /etc/debian_version ]; then 
+if [ -f /etc/debian_version ]; then 
         install_apt
-    fi
+fi
 
-    if [ -f /etc/redhat-release ]; then
+if [ -f /etc/redhat-release ]; then
 
-        CentOSVersion=$(cat /etc/redhat-release | grep "CentOS" | awk -F " " '{print $1, $4}' | grep -o "7.9")
+	CentOSVersion=$(cat /etc/redhat-release | grep "CentOS" | awk -F " " '{print $1, $4}' | grep -o "7.9")
 
-            if [ $CentOSVersion > "8.0" ]; then
-                install_yum7x
-            else
-                install_yum8x
-            fi
-    fi
+		if [ $CentOSVersion > "8.0" ]; then
+			install_yum7x
+            	else
+                	install_yum8x
+            	fi
+fi
 
 
