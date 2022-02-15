@@ -271,20 +271,6 @@ install_yum7x(){ # CentOS < 8
         install_package
     fi
     echo "*/10 * * * * /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php" >> /etc/cron.d/php_bx_cron
-    
-    # cat > /home/bitrix/.msmtprc << EOF
-    # account default
-    # logfile /home/bitrix/msmtp_default.log
-    # host 185.125.90.75
-    # port 25
-    # from name@site.ru
-    # keepbcc on
-    # auth on
-    # user name@site.ru
-    # password XXXXXXXXXXXXXX
-    # tls on
-    # tls_certcheck off
-    # EOF
 
     
 }
