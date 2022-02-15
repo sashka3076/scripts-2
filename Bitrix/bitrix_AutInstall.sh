@@ -249,7 +249,7 @@ install_yum7x(){ # CentOS < 8
     eval $SUDO yum update -y $DEBUG_STD
     eval $SUDO yum groupinstall "Development Tools" -y $DEBUG_STD
     eval $SUDO yum install wget -y $DEBUG_STD
-    install_package
+    
     # создаем аргументы
 
     if [ -n $pull ]; then
@@ -271,7 +271,11 @@ install_yum7x(){ # CentOS < 8
     fi
     eval echo "/10 * * * * /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php" >> /etc/cron.d/php_bx_cron
     eval /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php
+    
+    
 
+    
+    
     
 }
 
