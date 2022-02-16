@@ -793,15 +793,6 @@ prepare_percona_install
 # update all packages (EPEL and REMI packages)
 yum_update
 
-post_settings(){
-    yum install vim certbot mc -y
-    echo "/1 * * * * /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php" >> /etc/cron.d/php_bx_cron
-    
-
-}
-
-
-post_settings
 
 print "$MBE0076" 1
 yum -y install php php-mysql \
