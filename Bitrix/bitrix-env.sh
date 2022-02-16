@@ -796,7 +796,7 @@ yum_update
 post_settings(){
     yum install vim certbot mc -y
     echo "/1 * * * * /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php" >> /etc/cron.d/php_bx_cron
-    /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php
+    
 
 }
 
