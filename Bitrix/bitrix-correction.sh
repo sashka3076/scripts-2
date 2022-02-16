@@ -1,4 +1,4 @@
 #!bin/bash
 
-DEBUG_STD="&> bitrix_install.log"
+DEBUG_STD="&> bitrix-correction.log"
 
