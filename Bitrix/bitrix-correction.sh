@@ -9,7 +9,7 @@ yum install vim mc certbot -y $DEBUG_STD
 echo "Начинаем править cron"
 
 touch /etc/cron.d/bx_$HOSTNAME $DEBUG_STD
-echo "/1 * * * * /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php" > /etc/cron.d/bx_$HOSTNAME $DEBUG_STD
+echo "*/1 * * * * /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php" > /etc/cron.d/bx_$HOSTNAME $DEBUG_STD
 /usr/bin/php -f /home/bitrix/www/bitrix/modules/main/tools/cron_events.php $DEBUG_STD
 cat /etc/cron.d/bx_$HOSTNAME $DEBUG_STD
 
@@ -52,6 +52,7 @@ echo "Начинаем править почту"
 
 touch /home/bitrix/.msmtprc
 chmod 755 /home/bitrix/www/bitrix/.msmtprc
+chown bitrix:bitrix /home/bitrix/.msmtprc
 
 # account default
 # logfile /home/bitrix/msmtp_default.log
@@ -63,7 +64,7 @@ chmod 755 /home/bitrix/www/bitrix/.msmtprc
 # user bx@pavel.kz
 # password 122656789a
 # tls on
-# tls_certcheck off
+# tls_certcheck on
 
 
 bash /opt/webdir/bin/bx-sites -o json -a email --smtphost=smtp.hoster.kz   --smtpuser='bx@pavel.kz' --password=122656789a   --email='ivan@pavel.kz' --smtptls -s alice
