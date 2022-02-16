@@ -6,7 +6,7 @@ wget https://raw.githubusercontent.com/solo10010/scripts/main/Bitrix/bitrix_AutI
 ```
 
 ```
-wget https://raw.githubusercontent.com/solo10010/scripts/main/Bitrix/bitrix-env.sh && chmod +x bitrix-env.sh && sh bitrix-env.sh -s -p -H pavel.kz -I -M qwe123123Q -m 8.0
+wget https://raw.githubusercontent.com/solo10010/scripts/main/Bitrix/bitrix-env.sh && yum install -y ca-certificates && chmod +x bitrix-env.sh && sh bitrix-env.sh -s -p -H $HOSTNAME
 ```
 ```
 wget --no-check-certificate http://repos.1c-bitrix.ru/yum/bitrix-env.sh && chmod +x bitrix-env.sh && ./bitrix-env.sh -s -p -H "pavel.kz" -I -M "qwe123123Q" -m 8.0
