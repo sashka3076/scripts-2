@@ -41,7 +41,7 @@ case $key in
     domain_name="$2"
     shift # past argument
     shift # past value
-    if [[ -z $hostname ]]; then
+    if [[ -z $domain_name ]]; then
 	    echo " -d, Введи имя домена для установки сертификата "
 	    echo " -h, --help bitrix-correction.sh"
 	    exit
