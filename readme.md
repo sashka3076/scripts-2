@@ -7,7 +7,7 @@ wget https://raw.githubusercontent.com/solo10010/scripts/main/Bitrix/bitrix-env.
 ```
 Script 2
 ```
-wget https://raw.githubusercontent.com/solo10010/scripts/main/Bitrix/bitrix-correction.sh && chmod +x bitrix-correction.sh && sh bitrix-correction.sh
+wget https://raw.githubusercontent.com/solo10010/scripts/main/Bitrix/bitrix-correction.sh && chmod +x bitrix-correction.sh && sh bitrix-correction.sh -d pavel.kz -mail bx@pavel.kz -smtp-port 25
 ```
 
 если клиенты обращаются что после перехода с ISP  5 на 6  есть проблема при активации ключа https://disk.yandex.ru/i/gNq4y-4P5mBanA  решается так
