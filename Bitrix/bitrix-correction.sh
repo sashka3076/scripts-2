@@ -109,6 +109,8 @@ fi
 
 DEBUG_STD="&> bitrix-correction.log"
 
+echo 0 > /selinux/enforce
+
 echo "Устанавливаем vim mc"
 
 yum install vim mc certbot -y $DEBUG_STD
