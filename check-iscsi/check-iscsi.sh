@@ -23,6 +23,14 @@ FOLDER_MOUNT="/backup_isc"                          # примонтирован
 
 # ----- проверка на root права -------- #
 
+if [[ $(id -u | grep -o '^0$') == "0" ]]; then
+    SUDO=" "
+else
+    if sudo -n false 2>/dev/null; then
+        printf "Запустите скрипт под пользователем SUDO \n"
+    fi
+    SUDO="sudo"
+fi
 
 # ------- проверяем наличие директории для логов -------- #
 if ! [ -d /var/log/check-isci/ ]; then
@@ -43,6 +51,7 @@ fi
 # -----------раздел функций эти запускаются поначалу--------#
 
 function check_size_log(){
+
     if ! [ -f $ERROR_LOG ]; then                     # проверяем есть ли фай
         Error_File=$(cat $ERROR_LOG | wc -l)         # записываем в переменную количество строк в логе
         if [[ $Error_File >= "$max_size_log_file" ]]; then # если строк больше равно чем в настроках
@@ -74,6 +83,7 @@ function check_size_log(){
     else
         touch $DEBUG_LOG
     fi
+    
 }
 
 << 'MULTILINE-COMMENT'
