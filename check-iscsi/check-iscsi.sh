@@ -17,6 +17,10 @@ DEBUG_LOG="/var/log/check-isci/debug-isci.log"
 max_size_log_file=5                                 # 1000 строчек в файле последнии будут чистится
 FOLDER_MOUNT="/backup_isc"                          # примонтированная директория
 
+echo $max_size_log_file
+echo $ERROR_LOG
+echo $DEBUG_LOG
+echo $FOLDER_MOUNT
 # конец настроек
 
 
@@ -51,7 +55,7 @@ fi
 # -----------раздел функций эти запускаются поначалу--------#
 
 function check_size_log(){
-    echo $max_size_log_file
+    
     if ! [ -f $ERROR_LOG ]; then                     # проверяем есть ли фай
         Error_File=$(cat $ERROR_LOG | wc -l)         # записываем в переменную количество строк в логе
         if [[ $Error_File >= $max_size_log_file ]]; then # если строк больше равно чем в настроках
