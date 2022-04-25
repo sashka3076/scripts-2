@@ -58,7 +58,7 @@ function check_size_log(){
     
     if ! [ -f $ERROR_LOG ]; then                     # проверяем есть ли фай
         Error_File=$(cat $ERROR_LOG | wc -l)         # записываем в переменную количество строк в логе
-        if [[ $Error_File >= $max_size_log_file ]]; then # если строк больше равно чем в настроках
+        if [ $Error_File >= $max_size_log_file ]; then # если строк больше равно чем в настроках
             count=$($Error_File - $max_size_log_file) # считаем разницу
             if [[ $count != "0" ]];then               # если разнца не нулевая
                 
