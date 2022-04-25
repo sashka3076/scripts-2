@@ -22,12 +22,16 @@ FOLDER_MOUNT="/backup_isc"                          # примонтирован
 
 
 # ----- проверка на root права -------- #
-if [[ $(id -u | grep -o '^0$') != "0" ]]; then
-    echo "скрипт должен быть запущен от root!!!"
-	echo "чтобы сохранить домашнюю диркторию запустить sudo -E"
-	echo "запустить sudo -E ./check-iscsi.sh"
-    exit
-fi
+    if [[ $(id -u | grep -o '^0$') == "0" ]]; then
+    	SUDO=" "
+	else
+		if sudo -n false 2>/dev/null; then
+            echo "скрипт должен быть запущен от root!!!"
+            echo "чтобы сохранить домашнюю диркторию запустить sudo -E"
+            echo "запустить sudo -E ./reconWTF.sh"
+		fi
+    	SUDO="sudo"
+	fi
 
 # ------- проверяем наличие директории для логов -------- #
 if ! [ -d /var/log/check-isci/ ]; then
