@@ -81,7 +81,7 @@ function check_size_log(){
     fi
 }
 
-
+<< 'MULTILINE-COMMENT'
 function logSave(){
 
 }
@@ -89,6 +89,7 @@ function logSave(){
 function start_mount(){
 
 }
+MULTILINE-COMMENT
 
 function Check_mount(){
     # проверяем есть ли конфиг iscsi /etc/iscsi/initiatorname.iscsi 
@@ -101,6 +102,7 @@ function Check_mount(){
     fi
 }
 
+	<< 'MULTILINE-COMMENT'
 
 
 function disk_size(){
@@ -119,6 +121,7 @@ function check_rw(){
 
 }
 
-
+MULTILINE-COMMENT
 
 check_size_log
+Check_mount
