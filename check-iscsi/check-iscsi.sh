@@ -54,7 +54,7 @@ function check_size_log(){
 
     if ! [ -f $ERROR_LOG ]; then                     # проверяем есть ли фай
         Error_File=$(cat $ERROR_LOG | wc -l)         # записываем в переменную количество строк в логе
-        if [[ $Error_File >= "$max_size_log_file" ]]; then # если строк больше равно чем в настроках
+        if [[ $Error_File >= $max_size_log_file ]]; then # если строк больше равно чем в настроках
             count=$($Error_File - $max_size_log_file) # считаем разницу
             if [[ $count != "0" ]];then               # если разнца не нулевая
                 
@@ -70,7 +70,7 @@ function check_size_log(){
 
     if ! [ -f $DEBUG_LOG ]; then
         Error_File2=$(cat $DEBUG_LOG | wc -l)
-        if [[ $Error_File2 >= "$max_size_log_file" ]]; then
+        if [[ $Error_File2 >= $max_size_log_file ]]; then
             count=$($Error_File2 - $max_size_log_file)
             if [[ $count != "0" ]];then
                 
@@ -83,7 +83,7 @@ function check_size_log(){
     else
         touch $DEBUG_LOG
     fi
-    
+
 }
 
 << 'MULTILINE-COMMENT'
