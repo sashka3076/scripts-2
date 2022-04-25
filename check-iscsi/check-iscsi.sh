@@ -16,6 +16,7 @@ ERROR_LOG="/var/log/check-isci/error-isci.log"
 DEBUG_LOG="/var/log/check-isci/debug-isci.log"
 max_size_log_file=5                                 # 1000 строчек в файле последнии будут чистится
 FOLDER_MOUNT="/backup_isc"                          # примонтированная директория
+DISK_MOUNT="/dev/sda"
 
 # конец настроек
 
@@ -50,7 +51,7 @@ fi
 
 # -----------раздел функций эти запускаются поначалу--------#
 
-function check_size_log(){
+function Check_Size_Log(){
     
     if ! [ -f $ERROR_LOG ]; then                     # проверяем есть ли фай
         Error_File=$(cat $ERROR_LOG | wc -l)         # записываем в переменную количество строк в логе
@@ -86,52 +87,49 @@ function check_size_log(){
 
 }
 
-<< 'MULTILINE-COMMENT'
-function logSave(){
 
-}
-
-function start_mount(){
-
-}
-MULTILINE-COMMENT
-
-function Check_mount(){
+function Check_Session(){
     # проверяем есть ли конфиг iscsi /etc/iscsi/initiatorname.iscsi 
     if ! [ -f /etc/iscsi/initiatorname.iscsi ]; then
         # файла нет пишем ошибку в лог
-        echo "Файла initiatorname.iscsi не существует!" >> $ERROR_LOG
+        echo "$(date +'%Y.%m.%d.%k') Файла initiatorname.iscsi не существует!" >> $ERROR_LOG
     else # если есть берем от туда сесию
         . /etc/iscsi/initiatorname.iscsi
-        #seseion=
-        if [[ $InitiatorName != $(iscsiadm -m session -o show | grep -io "$InitiatorName") ]]; then
-            echo "Сесия $InitiatorName не запущена требуется перезапустить" >> $ERROR_LOG
-        else
-            echo "Сеия есть $InitiatorName"
+        # проверка на запуск сесии
+        if [[ $InitiatorName != $(iscsiadm -m session -o show | grep -io "$InitiatorName") ]]; then # проверяем наличие сесии
+            echo " $(date +'%Y.%m.%d.%k') Сесия прописанная в initiatorname.iscsi $InitiatorName не запущена" >> $ERROR_LOG
+            eval service iscsi restart
+            echo " $(date +'%Y.%m.%d.%k') Попытка перезапустить service iscsi restart " >> $ERROR_LOG
+
+            sleep 5000 # спим 5 секунд
+            if [[ $InitiatorName != $(iscsiadm -m session -o show | grep -io "$InitiatorName") ]]; then # проверяем наличие сесии
+                echo " $(date +'%Y.%m.%d.%k') Неудача перезапуск не помог $InitiatorName не запущена" >> $ERROR_LOG
         fi
+        fi
+    fi
+
+    # чекаем примонтированн ли диск
+
+
+}
+
+function Check_Disk_Mount(){ #/proc/mounts
+
+    Disk=$(lsblk | grep "$FOLDER_MOUNT$")
+    if [[ $Disk == "" ]]; then
+         echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не примонтирована" >> $ERROR_LOG
+         # начинаем монтирование
+    else
+        echo "примонтирована"    
     fi
 }
 
 	<< 'MULTILINE-COMMENT'
 
 
-function disk_size(){
-
-}
-
-function check_testfile(){
-
-}
-
-function check_target(){
-
-}
-
-function check_rw(){
-
-}
 
 MULTILINE-COMMENT
 
-check_size_log
-Check_mount
+Check_Size_Log
+Check_Session
+Check_Disk_Mount
