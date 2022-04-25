@@ -51,7 +51,7 @@ fi
 # -----------раздел функций эти запускаются поначалу--------#
 
 function check_size_log(){
-
+    echo $max_size_log_file
     if ! [ -f $ERROR_LOG ]; then                     # проверяем есть ли фай
         Error_File=$(cat $ERROR_LOG | wc -l)         # записываем в переменную количество строк в логе
         if [[ $Error_File >= $max_size_log_file ]]; then # если строк больше равно чем в настроках
