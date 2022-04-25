@@ -104,7 +104,7 @@ function Check_mount(){
     else # если есть берем от туда сесию
         . /etc/iscsi/initiatorname.iscsi
         seseion=$(iscsiadm -m session -o show | grep -io "$InitiatorName")
-        if [ $InitiatorName != $session ]; then
+        if [[ $InitiatorName != $session ]]; then
             echo "Сесия $InitiatorName не запущена требуется перезапустить" >> $ERROR_LOG
         else
             echo "Сеия есть $InitiatorName"
