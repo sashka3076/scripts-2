@@ -17,10 +17,6 @@ DEBUG_LOG="/var/log/check-isci/debug-isci.log"
 max_size_log_file=5                                 # 1000 строчек в файле последнии будут чистится
 FOLDER_MOUNT="/backup_isc"                          # примонтированная директория
 
-echo $max_size_log_file
-echo $ERROR_LOG
-echo $DEBUG_LOG
-echo $FOLDER_MOUNT
 # конец настроек
 
 
@@ -107,7 +103,12 @@ function Check_mount(){
         echo "Файла initiatorname.iscsi не существует!" >> $ERROR_LOG
     else # если есть берем от туда сесию
         . /etc/iscsi/initiatorname.iscsi
-        echo "$InitiatorName"
+
+        if [ $InitiatorName != $(iscsiadm -m session -o show | grep -io "$InitiatorName") ]; then
+            echo "Сесия $InitiatorName не запущена требуется перезапустить" >> $ERROR_LOG
+        else
+            echo "Сеия есть $InitiatorName"
+        fi
     fi
 }
 
