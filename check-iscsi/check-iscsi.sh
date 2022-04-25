@@ -103,8 +103,8 @@ function Check_mount(){
         echo "Файла initiatorname.iscsi не существует!" >> $ERROR_LOG
     else # если есть берем от туда сесию
         . /etc/iscsi/initiatorname.iscsi
-
-        if [ $InitiatorName != $(iscsiadm -m session -o show) | grep -io "$InitiatorName" ]; then
+        seseion=$(iscsiadm -m session -o show | grep -io "$InitiatorName")
+        if [ $InitiatorName != $session ]; then
             echo "Сесия $InitiatorName не запущена требуется перезапустить" >> $ERROR_LOG
         else
             echo "Сеия есть $InitiatorName"
