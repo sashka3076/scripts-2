@@ -93,17 +93,20 @@ function Check_Session(){
     if ! [ -f /etc/iscsi/initiatorname.iscsi ]; then
         # файла нет пишем ошибку в лог
         echo "$(date +'%Y.%m.%d.%k') Файла initiatorname.iscsi не существует!" >> $ERROR_LOG
+        echo "$(date +'%Y.%m.%d.%k') Файла initiatorname.iscsi не существует!"
     else # если есть берем от туда сесию
         . /etc/iscsi/initiatorname.iscsi
         # проверка на запуск сесии
         if [[ $InitiatorName != $(iscsiadm -m session -o show | grep -io "$InitiatorName") ]]; then # проверяем наличие сесии
             echo " $(date +'%Y.%m.%d.%k') Сесия прописанная в initiatorname.iscsi $InitiatorName не запущена" >> $ERROR_LOG
+            echo " $(date +'%Y.%m.%d.%k') Сесия прописанная в initiatorname.iscsi $InitiatorName не запущена"
             eval service iscsi restart
             echo " $(date +'%Y.%m.%d.%k') Попытка перезапустить service iscsi restart " >> $ERROR_LOG
-
+            echo " $(date +'%Y.%m.%d.%k') Попытка перезапустить service iscsi restart "
             sleep 5000 # спим 5 секунд
             if [[ $InitiatorName != $(iscsiadm -m session -o show | grep -io "$InitiatorName") ]]; then # проверяем наличие сесии
                 echo " $(date +'%Y.%m.%d.%k') Неудача перезапуск не помог $InitiatorName не запущена" >> $ERROR_LOG
+                echo " $(date +'%Y.%m.%d.%k') Неудача перезапуск не помог $InitiatorName не запущена"
         fi
         fi
     fi
@@ -118,25 +121,29 @@ function Check_Disk_Mount(){ #/proc/mounts
     Disk=$(lsblk | grep "$FOLDER_MOUNT$")
     if [[ $Disk == "" ]]; then
          echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT точка не примонтирована" >> $ERROR_LOG
+        echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT точка не примонтирована"
          # начинаем монтирование
          if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then # проверяем есть ли вообще диск
             #echo "тут попытка монтирования"
 
             if ! [ -d $FOLDER_MOUNT ]; then
                 echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не будет запущено" >> $ERROR_LOG
+                echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не будет запущено"
             else
                 # пытаемся все смотрировать
                 eval mount $DISK_MOUNT $FOLDER_MOUNT >> $DEBUG_LOG
                 sleep 5000
-                if ! [ -d $FOLDER_MOUNT ]; then
-                    echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не будет запущено" >> $ERROR_LOG
+                if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then
+                    echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не Удалось" >> $ERROR_LOG
+                    echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не Удалось"
                 fi
             fi
          else
             echo " $(date +'%Y.%m.%d.%k') Похоже диска не существует $DISK_MOUNT" >> $ERROR_LOG
+            echo " $(date +'%Y.%m.%d.%k') Похоже диска не существует $DISK_MOUNT"
          fi
     else
-        echo "примонтирована"    
+        echo "Все примонтировано"    
     fi
 }
 
