@@ -119,11 +119,12 @@ function Check_Session(){
 function Check_Disk_Mount(){ #/proc/mounts
 
     Disk=$(lsblk | grep "$FOLDER_MOUNT$")
+
     if [[ $Disk == "" ]]; then
-         echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT точка не примонтирована" >> $ERROR_LOG
+        echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT точка не примонтирована" >> $ERROR_LOG
         echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT точка не примонтирована"
          # начинаем монтирование
-         if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then # проверяем есть ли вообще диск
+        if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then # проверяем есть ли вообще диск
             #echo "тут попытка монтирования"
 
             if ! [ -d $FOLDER_MOUNT ]; then
@@ -131,19 +132,21 @@ function Check_Disk_Mount(){ #/proc/mounts
                 echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не будет запущено"
             else
                 # пытаемся все смотрировать
+                echo "Запущено монтирование"
                 eval mount $DISK_MOUNT $FOLDER_MOUNT >> $DEBUG_LOG
+
                 sleep 5000
                 if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then
                     echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не Удалось" >> $ERROR_LOG
                     echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не Удалось"
                 fi
-            fi
+        fi
          else
             echo " $(date +'%Y.%m.%d.%k') Похоже диска не существует $DISK_MOUNT" >> $ERROR_LOG
             echo " $(date +'%Y.%m.%d.%k') Похоже диска не существует $DISK_MOUNT"
          fi
     else
-        echo "Все примонтировано"    
+        echo "$(date +'%Y.%m.%d.%k') Все примонтировано"    
     fi
 }
 
