@@ -122,8 +122,8 @@ function Check_Disk_Mount(){ #/proc/mounts
             echo "$(date +'%Y.%m.%d.%k') Похоже $DISK_MOUNT Примонтирован"
         else
             # пытаемся все смотрировать
-            echo "Запущено монтирование"
-            eval mount $DISK_MOUNT $FOLDER_MOUNT >> $DEBUG_LOG
+            echo "Запущено монтирование диска $DISK_MOUNT в $FOLDER_MOUNT"
+            mount $DISK_MOUNT $FOLDER_MOUNT
 
             sleep 5000
             if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then
