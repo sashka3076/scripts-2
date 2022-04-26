@@ -136,10 +136,6 @@ function Check_Disk_Mount(){ #/proc/mounts
                 fi
             fi
         fi
-        else
-            echo " $(date +'%Y.%m.%d.%k') Похоже диска не существует $DISK_MOUNT" >> $ERROR_LOG
-            echo " $(date +'%Y.%m.%d.%k') Похоже диска не существует $DISK_MOUNT"
-        fi
 }
 
 	<< 'MULTILINE-COMMENT'
