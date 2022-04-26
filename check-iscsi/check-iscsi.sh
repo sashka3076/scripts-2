@@ -118,12 +118,6 @@ function Check_Session(){
 
 function Check_Disk_Mount(){ #/proc/mounts
 
-    Disk=$(lsblk | grep "$FOLDER_MOUNT$")
-
-    if [[ $Disk == "" ]]; then
-        echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT точка не примонтирована" >> $ERROR_LOG
-        echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT точка не примонтирована"
-         # начинаем монтирование
         if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then # проверяем есть ли вообще диск
             #echo "тут попытка монтирования"
 
@@ -140,14 +134,12 @@ function Check_Disk_Mount(){ #/proc/mounts
                     echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не Удалось" >> $ERROR_LOG
                     echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не Удалось"
                 fi
+            fi
         fi
-         else
+        else
             echo " $(date +'%Y.%m.%d.%k') Похоже диска не существует $DISK_MOUNT" >> $ERROR_LOG
             echo " $(date +'%Y.%m.%d.%k') Похоже диска не существует $DISK_MOUNT"
-         fi
-    else
-        echo "$(date +'%Y.%m.%d.%k') Все примонтировано"    
-    fi
+        fi
 }
 
 	<< 'MULTILINE-COMMENT'
