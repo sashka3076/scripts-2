@@ -119,9 +119,6 @@ function Check_Session(){
 function Check_Disk_Mount(){ #/proc/mounts
 
         if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then # проверяем есть ли вообще диск
-            #echo "тут попытка монтирования"
-                echo "Запущено монтирование"
-                eval mount $DISK_MOUNT $FOLDER_MOUNT >> $DEBUG_LOG
             if ! [ -d $FOLDER_MOUNT ]; then
                 # пытаемся все смотрировать
                 echo "Запущено монтирование"
@@ -133,6 +130,8 @@ function Check_Disk_Mount(){ #/proc/mounts
                     echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не Удалось"
                 fi
             fi
+        else
+            echo "Диск не примонтирован"
         fi
 }
 
