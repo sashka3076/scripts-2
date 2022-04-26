@@ -150,8 +150,9 @@ function Check_Size_Dir(){
     total_size=$(echo $dir_size | awk '{print $2}')
 
     # получаем криты именно по процентам ели больще 90% занято то ошибка grep -o "^[0-9][0-9]\?"
-
-    if [ $(echo $procent_use | grep -o '^[0-9][0-9]\?') >= 90 ]; then
+    pri=$(echo $procent_use | grep -o '^[0-9][0-9]\?')
+    echo $pri
+    if [[ $pri >= 90 ]]; then
         echo "$(date +'%Y.%m.%d.%k') На диске заканчивается место $procent_use"
         echo "$(date +'%Y.%m.%d.%k') На диске заканчивается место $procent_use" >> $ERROR_LOG
     fi
