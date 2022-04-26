@@ -124,21 +124,43 @@ function Check_Disk_Mount(){ #/proc/mounts
             # пытаемся все смотрировать
             echo "Запущено монтирование диска $DISK_MOUNT в $FOLDER_MOUNT"
             mount $DISK_MOUNT $FOLDER_MOUNT
-
-            sleep 30
-            if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then
-                echo " $(date +'%Y.%m.%d.%k') Похоже $DISK_MOUNT не существует автомонитрование не Удалось" >> $ERROR_LOG
-                echo " $(date +'%Y.%m.%d.%k') Похоже $DISK_MOUNT не существует автомонитрование не Удалось"
-            fi
+            sleep 5
         fi
 }
 
 	<< 'MULTILINE-COMMENT'
-
-
-
 MULTILINE-COMMENT
+
+function Check_Point_Mount(){
+    # Проверка на наличие директории
+    if ! [ -d $FOLDER_MOUNT ]; then
+         echo "$(date +'%Y.%m.%d.%k') Директории $DISK_MOUNT Не существует"
+         echo "$(date +'%Y.%m.%d.%k') Директории $DISK_MOUNT Не существует" >> $ERROR_LOG
+    fi
+}
+
+
+function Check_Size_Dir(){
+    dir_size=$(df -h $FOLDER_MOUNT | grep "$FOLDER_MOUNT$")
+
+    # получаем значения из вывода
+    procent_use=$(echo $dir_size | awk '{print $5}')
+    avail_size=$(echo $dir_size | awk '{print $4}')
+    used_size=$(echo $dir_size | awk '{print $3}')
+    total_size=$(echo $dir_size | awk '{print $2}')
+
+    # получаем криты именно по процентам ели больще 90% занято то ошибка grep -o "^[0-9][0-9]\?"
+
+    if [ $(echo $procent_use | grep -o "^[0-9][0-9]\?") >= "90" ]; then
+        echo "$(date +'%Y.%m.%d.%k') На диске заканчивается место $procent_use"
+        echo "$(date +'%Y.%m.%d.%k') На диске заканчивается место $procent_use" >> $ERROR_LOG
+    fi
+
+
+}
 
 Check_Size_Log
 Check_Session
 Check_Disk_Mount
+Check_Point_Mount
+Check_Size_Dir
