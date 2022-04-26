@@ -122,9 +122,6 @@ function Check_Disk_Mount(){ #/proc/mounts
             #echo "тут попытка монтирования"
 
             if ! [ -d $FOLDER_MOUNT ]; then
-                echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не будет запущено" >> $ERROR_LOG
-                echo " $(date +'%Y.%m.%d.%k') Похоже $FOLDER_MOUNT не существует автомонитрование не будет запущено"
-            else
                 # пытаемся все смотрировать
                 echo "Запущено монтирование"
                 eval mount $DISK_MOUNT $FOLDER_MOUNT >> $DEBUG_LOG
