@@ -125,7 +125,7 @@ function Check_Disk_Mount(){ #/proc/mounts
             echo "Запущено монтирование диска $DISK_MOUNT в $FOLDER_MOUNT"
             mount $DISK_MOUNT $FOLDER_MOUNT
 
-            sleep 5000
+            sleep 30
             if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then
                 echo " $(date +'%Y.%m.%d.%k') Похоже $DISK_MOUNT не существует автомонитрование не Удалось" >> $ERROR_LOG
                 echo " $(date +'%Y.%m.%d.%k') Похоже $DISK_MOUNT не существует автомонитрование не Удалось"
