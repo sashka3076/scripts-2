@@ -142,7 +142,8 @@ function Check_Point_Mount(){
 
 
 function Check_Size_Dir(){
-    dir_size=$(df -h $FOLDER_MOUNT | grep "$FOLDER_MOUNT$")
+    
+    dir_size=$(df -h $FOLDER_MOUNT | grep -w "$FOLDER_MOUNT$")
 
     # получаем значения из вывода
     procent_use=$(echo $dir_size | awk '{print $5}')
@@ -161,15 +162,14 @@ function Check_Size_Dir(){
 # чеки на доступ к папке расширение итд
 function Extension_Dir(){
     $FOLDER_MOUNT_NOTSLASH=$(echo $FOLDER_MOUNT | sed 's/\///')
-    ls_dir=$(ls -la / | grep "$FOLDER_MOUNT_NOTSLASH")
+    ls_dir=$(ls -la / | grep -w "$FOLDER_MOUNT_NOTSLASH")
 
-    extrnd=$(echo $ls_dir | awk '{print $3}')
-    #users=$(echo $ls_dir | awk '{print $2, $3}')
+    extrnd=$(echo $ls_dir | awk '{print $1}')
+    users=$(echo $ls_dir | awk '{print $2, $3}')
 
     echo $extrnd
-    echo $FOLDER_MOUNT_NOTSLASH
-    echo $ls_dir
-    echo "asdasd"
+    echo $users
+
 }
 
 
