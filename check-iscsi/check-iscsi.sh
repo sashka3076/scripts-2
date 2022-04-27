@@ -215,7 +215,7 @@ function Extension_Dir(){
             echo "$(date +'%Y.%m.%d.%k') Задать пользователя root:root $DISK_MOUNT Не удалось" >> $ERROR_LOG
         fi
     fi
-
+}
 
 function ReadWriteFile(){
 
