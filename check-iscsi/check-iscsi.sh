@@ -170,6 +170,16 @@ function Extension_Dir(){
     echo $extrnd
     echo $users
 
+    if [[ $extrnd != "drwxr-xr-x" ]]; then
+        echo "$(date +'%Y.%m.%d.%k') У директории $DISK_MOUNT Не правильные права"
+        echo "$(date +'%Y.%m.%d.%k') У директории $DISK_MOUNT Не правильные права" >> $ERROR_LOG
+    fi
+
+    if [[ $users != "root root" ]]; then
+        echo "$(date +'%Y.%m.%d.%k') У директории $DISK_MOUNT Не правильные пользователи"
+        echo "$(date +'%Y.%m.%d.%k') У директории $DISK_MOUNT Не правильные users" >> $ERROR_LOG
+    fi
+
 }
 
 
