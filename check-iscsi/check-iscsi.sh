@@ -2,13 +2,14 @@
 
 # скрипт для чеков на ошибки iscsi на стороне инициатора (не таргета)
 
+# чек доступности таргета
 # проверить на монтировавность диска
-# если нет то примонтировать правильно
-# Проверка свободного диска на примонтированном диске
+# проверка прав у директории
+# проверка пользователя на директории
+# Проверка свободного места на примонтированном диске если <= 90% ошибка
 # проверить можно ли создавать файлы
-# чек доступности такргета
 # Ошибки чтения записи
-# файл логов
+
 
 # ---------------------- Конфиги --------------------- #
 
@@ -16,12 +17,11 @@ ERROR_LOG="/var/log/check-isci/error-isci.log"
 DEBUG_LOG="/var/log/check-isci/debug-isci.log"
 max_size_log_file=5                                 # 1000 строчек в файле последнии будут чистится
 FOLDER_MOUNT="/backup_isc"                          # примонтированная директория
-FOLDER_MOUNT_NOTSLASH="backup_isc"  
 DISK_MOUNT="/dev/sda"
 
 # конец настроек
 
-
+$FOLDER_MOUNT_NOTSLASH=$(echo $FOLDER_MOUNT | sed 's/\///') 2> /dev/null
 
 # ----- проверка на root права -------- #
 
@@ -209,7 +209,7 @@ function Extension_Dir(){
 
         extrnd=$(echo $ls_dir | awk '{print $1}')
         users=$(echo $ls_dir | awk '{print $3, $4}')
-        
+
         if [[ $users != "root root" ]]; then
             echo "$(date +'%Y.%m.%d.%k') Задать пользователя root:root $DISK_MOUNT Не удалось"
             echo "$(date +'%Y.%m.%d.%k') Задать пользователя root:root $DISK_MOUNT Не удалось" >> $ERROR_LOG
@@ -217,7 +217,9 @@ function Extension_Dir(){
     fi
 
 
+function ReadWriteFile(){
 
+}
 
 
 
@@ -230,3 +232,4 @@ Check_Disk_Mount
 Check_Point_Mount
 Check_Size_Dir
 Extension_Dir
+#ReadWriteFile
