@@ -163,8 +163,8 @@ function Extension_Dir(){
     extrnd=$(echo $ls_dir | awk '{print $3}')
     #users=$(echo $ls_dir | awk '{print $2, $3}')
 
-    echo "$extrnd"
-    echo "$ls_dir"
+    echo $extrnd
+    echo $ls_dir
     echo "asdasd"
 }
 
