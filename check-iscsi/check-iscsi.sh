@@ -218,6 +218,7 @@ function Extension_Dir(){
 
 
 function ReadWriteFile(){
+
         if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then # проверяем есть ли вообще диск
             # пытаемся создать файл
             touch $DISK_MOUNT/testfile.txt
@@ -227,6 +228,7 @@ function ReadWriteFile(){
                 echo "$(date +'%Y.%m.%d.%k') Не получилось создать testfile.txt в $DISK_MOUNT такого файла нет" >> $ERROR_LOG
             fi
         fi
+
 }
 
 
@@ -236,4 +238,4 @@ Check_Disk_Mount
 Check_Point_Mount
 Check_Size_Dir
 Extension_Dir
-#ReadWriteFile
+ReadWriteFile
