@@ -226,7 +226,7 @@ function ReadWriteFile(){
                 echo "$(date +'%Y.%m.%d.%k') Не получилось создать testfile.txt в $DISK_MOUNT такого файла нет"
                 echo "$(date +'%Y.%m.%d.%k') Не получилось создать testfile.txt в $DISK_MOUNT такого файла нет" >> $ERROR_LOG
             fi
-        else
+        fi
 }
 
 
