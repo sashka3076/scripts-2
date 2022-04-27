@@ -165,6 +165,7 @@ function Extension_Dir(){
 
     echo "$extrnd"
     echo "$users"
+    echo "asdasd"
 }
 
 
