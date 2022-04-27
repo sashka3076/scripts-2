@@ -165,7 +165,7 @@ function Extension_Dir(){
     ls_dir=$(ls -la / | grep -w "$FOLDER_MOUNT_NOTSLASH")
 
     extrnd=$(echo $ls_dir | awk '{print $1}')
-    users=$(echo $ls_dir | awk '{print $2, $3}')
+    users=$(echo $ls_dir | awk '{print $3, $4}')
 
     echo $extrnd
     echo $users
