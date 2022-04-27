@@ -168,25 +168,46 @@ function Extension_Dir(){
     users=$(echo $ls_dir | awk '{print $3, $4}')
 
     if [[ $extrnd != "drwxr-xr-x" ]]; then
+        $FOLDER_MOUNT_NOTSLASH=$(echo $FOLDER_MOUNT | sed 's/\///') 2> /dev/null
+        ls_dir=$(ls -la / | grep -w "$FOLDER_MOUNT_NOTSLASH")
+
+        extrnd=$(echo $ls_dir | awk '{print $1}')
+        users=$(echo $ls_dir | awk '{print $3, $4}')
+
         echo "$(date +'%Y.%m.%d.%k') У директории $DISK_MOUNT Не правильные права"
         echo "$(date +'%Y.%m.%d.%k') У директории $DISK_MOUNT Не правильные права" >> $ERROR_LOG
         chmod 755 $FOLDER_MOUNT
 
         if [[ $extrnd != "drwxr-xr-x" ]]; then
+            $FOLDER_MOUNT_NOTSLASH=$(echo $FOLDER_MOUNT | sed 's/\///') 2> /dev/null
+            ls_dir=$(ls -la / | grep -w "$FOLDER_MOUNT_NOTSLASH")
+
+            extrnd=$(echo $ls_dir | awk '{print $1}')
+            users=$(echo $ls_dir | awk '{print $3, $4}')
             echo "$(date +'%Y.%m.%d.%k') Попытка задать права 755 $DISK_MOUNT Не удалась"
             echo "$(date +'%Y.%m.%d.%k') Попытка задать права 755 $DISK_MOUNT Не удалась" >> $ERROR_LOG
         fi
     fi
 
     if [[ $users != "root root" ]]; then
+        $FOLDER_MOUNT_NOTSLASH=$(echo $FOLDER_MOUNT | sed 's/\///') 2> /dev/null
+        ls_dir=$(ls -la / | grep -w "$FOLDER_MOUNT_NOTSLASH")
+
+        extrnd=$(echo $ls_dir | awk '{print $1}')
+        users=$(echo $ls_dir | awk '{print $3, $4}')
         echo "$(date +'%Y.%m.%d.%k') У директории $DISK_MOUNT Не правильные пользователи"
         echo "$(date +'%Y.%m.%d.%k') У директории $DISK_MOUNT Не правильные users" >> $ERROR_LOG
 
         chown root:root $DISK_MOUNT
-
+        sleep
         if [[ $users != "root root" ]]; then
-        echo "$(date +'%Y.%m.%d.%k') Задать пользователя root:root $DISK_MOUNT Не удалось"
-        echo "$(date +'%Y.%m.%d.%k') Задать пользователя root:root $DISK_MOUNT Не удалось" >> $ERROR_LOG
+            $FOLDER_MOUNT_NOTSLASH=$(echo $FOLDER_MOUNT | sed 's/\///') 2> /dev/null
+            ls_dir=$(ls -la / | grep -w "$FOLDER_MOUNT_NOTSLASH")
+
+            extrnd=$(echo $ls_dir | awk '{print $1}')
+            users=$(echo $ls_dir | awk '{print $3, $4}')
+            echo "$(date +'%Y.%m.%d.%k') Задать пользователя root:root $DISK_MOUNT Не удалось"
+            echo "$(date +'%Y.%m.%d.%k') Задать пользователя root:root $DISK_MOUNT Не удалось" >> $ERROR_LOG
         fi
     fi
 
