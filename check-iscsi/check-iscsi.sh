@@ -161,7 +161,7 @@ function Check_Size_Dir(){
 
 # чеки на доступ к папке расширение итд
 function Extension_Dir(){
-    $FOLDER_MOUNT_NOTSLASH=$(echo $FOLDER_MOUNT | sed 's/\///')
+    $FOLDER_MOUNT_NOTSLASH=$(echo $FOLDER_MOUNT | sed 's/\///') > /dev/null
     ls_dir=$(ls -la / | grep -w "$FOLDER_MOUNT_NOTSLASH")
 
     extrnd=$(echo $ls_dir | awk '{print $1}')
