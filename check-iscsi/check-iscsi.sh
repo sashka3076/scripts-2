@@ -221,11 +221,11 @@ function ReadWriteFile(){
 
     if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then # проверяем есть ли вообще диск
         # пытаемся создать файл
-        touch $DISK_MOUNT/testfile.txt
+        touch $FOLDER_MOUNT/testfile.txt
             
-        if ! [ -f $DISK_MOUNT/testfile.txt ]; then
-            echo "$(date +'%Y.%m.%d.%k') Не получилось создать testfile.txt в $DISK_MOUNT такого файла нет"
-            echo "$(date +'%Y.%m.%d.%k') Не получилось создать testfile.txt в $DISK_MOUNT такого файла нет" >> $ERROR_LOG
+        if ! [ -f $FOLDER_MOUNT/testfile.txt ]; then
+            echo "$(date +'%Y.%m.%d.%k') Не получилось создать testfile.txt в $FOLDER_MOUNT такого файла нет"
+            echo "$(date +'%Y.%m.%d.%k') Не получилось создать testfile.txt в $FOLDER_MOUNT такого файла нет" >> $ERROR_LOG
         fi
         
     fi
