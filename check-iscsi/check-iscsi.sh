@@ -119,7 +119,7 @@ function Check_Session(){
 function Check_Disk_Mount(){ #/proc/mounts
 
         if [[ $(cat /proc/mounts | grep -io "^$DISK_MOUNT") == $DISK_MOUNT ]]; then # проверяем есть ли вообще диск
-            echo "$(date +'%Y.%m.%d.%k') Похоже $DISK_MOUNT Примонтирован"
+            echo "" > /dev/null
         else
             # пытаемся все смотрировать
             echo "Запущено монтирование диска $DISK_MOUNT в $FOLDER_MOUNT"
@@ -141,7 +141,7 @@ function Check_Point_Mount(){
 
 
 function Check_Size_Dir(){
-    dir_size=$(df -h $FOLDER_MOUNT | grep "$FOLDER_MOUNT$")
+    dir_size=$(df -h $FOLDER_MOUNT | grep -w "$FOLDER_MOUNT$")
 
     # получаем значения из вывода
     procent_use=$(echo $dir_size | awk '{print $5}')
@@ -155,12 +155,22 @@ function Check_Size_Dir(){
         echo "$(date +'%Y.%m.%d.%k') На диске заканчивается место $procent_use"
         echo "$(date +'%Y.%m.%d.%k') На диске заканчивается место $procent_use" >> $ERROR_LOG
     fi
-
-
 }
+
+# чеки на доступ к папке расширение итд
+function Extension_Dir(){
+    ls_dir=$(ls -la / | grep -ow "$FOLDER_MOUNT$")
+    extrnd=$(echo $ls_dir | awk '{print $1}')
+    users=$(echo $ls_dir | awk '{print $3, 4}')
+
+    echo "$extrnd"
+    echo "$users"
+}
+
 
 Check_Size_Log
 Check_Session
 Check_Disk_Mount
 Check_Point_Mount
 Check_Size_Dir
+Extension_Dir
