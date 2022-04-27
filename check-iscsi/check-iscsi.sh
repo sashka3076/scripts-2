@@ -159,7 +159,7 @@ function Check_Size_Dir(){
 
 # чеки на доступ к папке расширение итд
 function Extension_Dir(){
-    ls_dir=$(ls -la / | grep -ow "$FOLDER_MOUNT$")
+    ls_dir=$(ls -la / | grep -w "$FOLDER_MOUNT$")
     extrnd=$(echo $ls_dir | awk '{print $3}')
     #users=$(echo $ls_dir | awk '{print $2, $3}')
 
