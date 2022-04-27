@@ -16,6 +16,7 @@ ERROR_LOG="/var/log/check-isci/error-isci.log"
 DEBUG_LOG="/var/log/check-isci/debug-isci.log"
 max_size_log_file=5                                 # 1000 строчек в файле последнии будут чистится
 FOLDER_MOUNT="/backup_isc"                          # примонтированная директория
+FOLDER_MOUNT_NOTSLASH="backup_isc"  
 DISK_MOUNT="/dev/sda"
 
 # конец настроек
@@ -141,7 +142,7 @@ function Check_Point_Mount(){
 
 
 function Check_Size_Dir(){
-    dir_size=$(df -h $FOLDER_MOUNT | grep -w "$FOLDER_MOUNT$")
+    dir_size=$(df -h $FOLDER_MOUNT | grep "$FOLDER_MOUNT$")
 
     # получаем значения из вывода
     procent_use=$(echo $dir_size | awk '{print $5}')
@@ -159,11 +160,14 @@ function Check_Size_Dir(){
 
 # чеки на доступ к папке расширение итд
 function Extension_Dir(){
-    ls_dir=$(ls -la / | grep "$FOLDER_MOUNT")
+    $FOLDER_MOUNT_NOTSLASH=$(echo $FOLDER_MOUNT | sed 's/\///')
+    ls_dir=$(ls -la / | grep "$FOLDER_MOUNT_NOTSLASH")
+
     extrnd=$(echo $ls_dir | awk '{print $3}')
     #users=$(echo $ls_dir | awk '{print $2, $3}')
 
     echo $extrnd
+    echo $FOLDER_MOUNT_NOTSLASH
     echo $ls_dir
     echo "asdasd"
 }
